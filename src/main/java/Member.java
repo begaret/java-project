@@ -10,7 +10,7 @@ public class Member
 
     public String first_name;
     public String last_name;
-    public String id;
+    public int id;
     // 1 = student, 2 = teacher and so on.
     public int level;
     public LocalDate suspended;
@@ -22,7 +22,7 @@ public class Member
         delays = 0;
     }
 
-    Member(String fname, String lname, String id, int level, LocalDate suspended)
+    Member(String fname, String lname, int id, int level, LocalDate suspended)
     {
         this.first_name = fname;
         this.last_name = lname;

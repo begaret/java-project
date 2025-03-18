@@ -8,7 +8,7 @@ public class Main
 
         System.out.println("Welcome to the Library System!");
         System.out.println("Enter your user id:");
-        String user = scanner.nextLine();
+        int user = Integer.parseInt(scanner.nextLine());
 
         Database db = new Database("jdbc:sqlserver://172.27.129.59/SQLEXPRESS;database=libraryDB;password=123;");
         Library lib = new Library(db);
@@ -55,7 +55,7 @@ public class Main
                 System.out.println("Enter level: ");
                 member.level = Integer.parseInt(scanner.nextLine());
                 System.out.println("Enter id: ");
-                member.id = scanner.nextLine();
+                member.id = Integer.parseInt(scanner.nextLine());
                 lib.create_member(member);
             } break;
 
@@ -66,7 +66,7 @@ public class Main
                 }
 
                 System.out.println("Enter id: ");
-                String id = scanner.nextLine();
+                int id = Integer.parseInt(scanner.nextLine());
                 lib.delete_member(id);
             } break;
 
@@ -77,7 +77,7 @@ public class Main
                 }
 
                 System.out.println("Enter id: ");
-                String id = scanner.nextLine();
+                int id = Integer.parseInt(scanner.nextLine());
                 lib.suspend_member(id);
             } break;
 

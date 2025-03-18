@@ -33,7 +33,7 @@ public class Database
 
     // MEMBER
     public boolean set_member(Member member) { return false; }
-    public Member get_member(String id)
+    public Member get_member(int id)
     {
         try {
             logger.debug(String.format("SELECT * FROM Member WHERE id = %s", id));
@@ -46,7 +46,7 @@ public class Database
             }
 
             Member member = new Member();
-            member.id = rs.getString(0);
+            member.id = rs.getInt(0);
             member.first_name = rs.getString(1);
             member.last_name = rs.getString(2);
             member.level = rs.getInt(3);
@@ -59,7 +59,7 @@ public class Database
         }
     }
     public boolean add_member(Member member) { return false; }
-    public boolean remove_member(String id) { return false; }
+    public boolean remove_member(int id) { return false; }
 
     // BOOK
     public Book get_book(String ISBN) { return null; }
@@ -71,7 +71,7 @@ public class Database
     *   if arg is empty do not use in query
     *   if no loans found, return empty array
     */
-    public Loan[] get_loans(String id, String ISBN) { return null; }
+    public Loan[] get_loans(int id, String ISBN) { return null; }
     public boolean add_loan(Loan loan) { return false; }
-    public boolean remove_loan(String id, String ISBN) { return false; }
+    public boolean remove_loan(int id, String ISBN) { return false; }
 }

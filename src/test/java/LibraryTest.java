@@ -21,10 +21,10 @@ class LibraryTest
     @BeforeEach
     void init()
     {
-        when(db.get_member("fake_user"))
+        when(db.get_member(0))
             .thenReturn(new Member("fake",
                     "user",
-                    "fake_user",
+                    0,
                     Member.postgrad,
                     LocalDate.MIN));
         lib = new Library(db);
@@ -33,16 +33,16 @@ class LibraryTest
     @Test
     void test_login()
     {
-        assertTrue(lib.login("fake_user"));
+        assertTrue(lib.login(0));
     }
 
     @Test
     void test_lend_book()
     {
-        assertTrue(lib.login("fake_user"));
-        when(db.get_loans("fake_user", ""))
+        assertTrue(lib.login(0));
+        when(db.get_loans(0, ""))
                 .thenReturn(new Loan[]{});
-        when(db.get_loans("", "boken"))
+        when(db.get_loans(-1, "boken"))
                 .thenReturn(new Loan[]{});
 
         assertFalse(lib.lend_book("boken"));
@@ -55,11 +55,11 @@ class LibraryTest
     @Test
     void test_return_book()
     {
-        assertTrue(lib.login("fake_user"));
+        assertTrue(lib.login(0));
 
         when(db.get_book("boken"))
                 .thenReturn(new Book("olof", "boken", "boken", 2025, 1));
-        when(db.remove_loan("fake_user", "boken"))
+        when(db.remove_loan(0, "boken"))
                 .thenReturn(true);
         assertTrue(lib.return_book("boken"));
     }
@@ -67,27 +67,27 @@ class LibraryTest
     @Test
     void test_create_member()
     {
-        assertTrue(lib.login("fake_user"));
+        assertTrue(lib.login(0));
 
-        when(db.get_member("evil_user"))
-                .thenReturn(new Member("evil", "user", "evil_user", Member.student, LocalDate.MAX));
-        assertFalse(lib.create_member(new Member("evil", "user", "evil_user", Member.student, LocalDate.MIN)));
-        when(db.get_member("good_user"))
+        when(db.get_member(1))
+                .thenReturn(new Member("evil", "user", 1, Member.student, LocalDate.MAX));
+        assertFalse(lib.create_member(new Member("evil", "user", 1, Member.student, LocalDate.MIN)));
+        when(db.get_member(2))
                 .thenReturn(null);
-        assertTrue(lib.create_member(new Member("good", "user", "good_user", Member.student, LocalDate.MIN)));
+        assertTrue(lib.create_member(new Member("good", "user", 2, Member.student, LocalDate.MIN)));
     }
 
     @Test
     void test_suspend_member()
     {
-        assertTrue(lib.login("fake_user"));
+        assertTrue(lib.login(0));
 
-        when(db.get_member("evil_user"))
+        when(db.get_member(1))
                 .thenReturn(null);
-        assertFalse(lib.suspend_member("evil_user"));
+        assertFalse(lib.suspend_member(1));
 
-        when(db.get_member("evil_user"))
-                .thenReturn(new Member("evil", "user", "evil_user", Member.student, LocalDate.MAX));
-        assertTrue(lib.suspend_member("evil_user"));
+        when(db.get_member(1))
+                .thenReturn(new Member("evil", "user", 1, Member.student, LocalDate.MAX));
+        assertTrue(lib.suspend_member(1));
     }
 }

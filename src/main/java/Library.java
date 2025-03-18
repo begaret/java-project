@@ -10,7 +10,7 @@ public class Library
         db = _db;
     }
 
-    public boolean login(String id)
+    public boolean login(int id)
     {
         user = db.get_member(id);
         return user != null;
@@ -33,7 +33,7 @@ public class Library
         if (book == null) {
             System.out.printf("No book with ISBN = %s%n", ISBN);
             return false;
-        } else if (db.get_loans("", ISBN).length >= book.amount) {
+        } else if (db.get_loans(-1, ISBN).length >= book.amount) {
             System.out.println("Book is not available");
             return false;
         }
@@ -51,7 +51,9 @@ public class Library
     {
         Book book = db.get_book(ISBN);
         if (book == null) {
-            System.out.printf("No book with ISBN = %s%n", ISBN);
+            System.out.println(String
+                    .format("No book with ISBN = %s",
+                            ISBN));
             return false;
         }
 
@@ -78,12 +80,12 @@ public class Library
         return false;
     }
 
-    public boolean delete_member(String id)
+    public boolean delete_member(int id)
     {
         return db.remove_member(id);
     }
 
-    public boolean suspend_member(String id)
+    public boolean suspend_member(int id)
     {
         Member member = db.get_member(id);
         if (member == null) {
