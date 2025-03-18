@@ -13,10 +13,14 @@ public class Database
     Database(String url)
     {
         try {
-            connection = DriverManager.getConnection(url, "remote_user", "123");
-            logger.info("connected to database");
+            String dbUrl = "jdbc:sqlserver://172.27.146.207:1433;databaseName=libraryDB;encrypt=false;trustServerCertificate=true";
+            String user = "remote_userr";
+            String password = "1234";
+
+            connection = DriverManager.getConnection(dbUrl, user, password);
+            logger.info("Connected to database");
         } catch (SQLException e) {
-            logger.error("failed to connect: {}", e.getMessage());
+            logger.error("Failed to connect: {}", e.getMessage());
         }
     }
 

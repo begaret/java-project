@@ -14,7 +14,7 @@ public class Library
 
     Library(String id)
     {
-        db = new Database("jdbc:sqlserver://172.27.129.59/SQLEXPRESS;database=libraryDB;password=123;");
+        db = new Database("jdbc:sqlserver://172.27.129.59/SQLEXPRESS;database=libraryDB;password=1234;");
         user = db.get_member(id);
     }
 
