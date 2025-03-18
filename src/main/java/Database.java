@@ -36,6 +36,8 @@ public class Database
     public Member get_member(String id)
     {
         try {
+            logger.debug(String.format("SELECT * FROM Member WHERE id = %s", id));
+
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM Member WHERE id = %s", id));
             if (!rs.next()) {
