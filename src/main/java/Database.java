@@ -1,9 +1,7 @@
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Database
 {
@@ -24,9 +22,40 @@ public class Database
         }
     }
 
+    public void shutdown()
+    {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            logger.error("Failed to close: {}", e.getMessage());
+        }
+    }
+
     // MEMBER
     public boolean set_member(Member member) { return false; }
-    public Member get_member(String id) { return null; }
+    public Member get_member(String id)
+    {
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM Member WHERE id = %s", id));
+            if (!rs.next()) {
+                logger.warn("No members found");
+                return null;
+            }
+
+            Member member = new Member();
+            member.id = rs.getString(0);
+            member.first_name = rs.getString(1);
+            member.last_name = rs.getString(2);
+            member.level = rs.getInt(3);
+            member.suspended = rs.getDate(4).toLocalDate();
+            member.delays = rs.getInt(5);
+            return member;
+        } catch (SQLException e) {
+            logger.error("Failed to close: {}", e.getMessage());
+            return null;
+        }
+    }
     public boolean add_member(Member member) { return false; }
     public boolean remove_member(String id) { return false; }
 

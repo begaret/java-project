@@ -86,5 +86,7 @@ public class Main
             } break;
             }
         }
+
+        db.shutdown();
     }
 }
