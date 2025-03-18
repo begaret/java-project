@@ -22,6 +22,16 @@ public class Member
         delays = 0;
     }
 
+    Member(String fname, String lname, String id, int level, LocalDate suspended)
+    {
+        this.first_name = fname;
+        this.last_name = lname;
+        this.id = id;
+        this.level = level;
+        this.suspended = suspended;
+        delays = 0;
+    }
+
     public int max_books()
     {
         switch (level) {

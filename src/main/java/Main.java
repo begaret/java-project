@@ -10,8 +10,9 @@ public class Main
         System.out.println("Enter your user id:");
         String user = scanner.nextLine();
 
-        Library lib = new Library(user);
-        if (!lib.user_is_valid()) {
+        Database db = new Database("jdbc:sqlserver://172.27.129.59/SQLEXPRESS;database=libraryDB;password=123;");
+        Library lib = new Library(db);
+        if (!lib.login(user)) {
             System.out.println("Invalid user!");
             return;
         }

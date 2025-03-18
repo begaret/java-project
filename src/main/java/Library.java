@@ -5,21 +5,14 @@ public class Library
     Database db;
     Member user;
 
-
-    public Library(Database store, String id)
+    Library(Database _db)
     {
-        this.db = store;
-        user = db.get_member(id);
+        db = _db;
     }
 
-    Library(String id)
+    public boolean login(String id)
     {
-        db = new Database("jdbc:sqlserver://172.27.129.59/SQLEXPRESS;database=libraryDB;password=1234;");
         user = db.get_member(id);
-    }
-
-    public boolean user_is_valid()
-    {
         return user != null;
     }
 
@@ -42,7 +35,7 @@ public class Library
                     .format("No book with ISBN = %s",
                             ISBN));
             return false;
-        } else if (db.get_loans("", ISBN) != null) {
+        } else if (db.get_loans("", ISBN).length >= book.amount) {
             System.out.println("Book is not available");
             return false;
         }
@@ -80,7 +73,7 @@ public class Library
         }
 
         LocalDate now = LocalDate.now();
-        if (!user.suspended.isBefore(now)) {
+        if (!member.suspended.isBefore(now)) {
             System.out.println("User is suspended");
             return false;
         }

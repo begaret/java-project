@@ -5,16 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.when;
 
-import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Mock;
+
+import java.time.LocalDate;
 
 class LibraryTest
 {
     @Mock
     Database db;
-
-    @InjectMocks
     Library lib;
 
     LibraryTest() { MockitoAnnotations.openMocks(this); }
@@ -22,71 +21,73 @@ class LibraryTest
     @BeforeEach
     void init()
     {
-        Member m = new Member();
-        m.first_name = "fake";
-        m.last_name = "user";
-        m.id = "00000";
-        m.level = 0;
-
         when(db.get_member("fake_user"))
-            .thenReturn(m);
-
-        lib = new Library("fake_user");
+            .thenReturn(new Member("fake",
+                    "user",
+                    "fake_user",
+                    Member.postgrad,
+                    LocalDate.MIN));
+        lib = new Library(db);
     }
 
-    @Mock
-    Database store;
     @Test
-    void test_lend_book1()
+    void test_login()
     {
-
-        Library cut = new Library(store, "jjjjjj");
-
-
+        assertTrue(lib.login("fake_user"));
     }
 
     @Test
     void test_lend_book()
     {
-        when(db.get_loans("00000", ""))
+        assertTrue(lib.login("fake_user"));
+        when(db.get_loans("fake_user", ""))
                 .thenReturn(new Loan[]{});
         when(db.get_loans("", "boken"))
                 .thenReturn(new Loan[]{});
 
         assertFalse(lib.lend_book("boken"));
 
-        Book b = new Book();
-        b.author = "olof";
-        b.title = "boken";
-        b.ISBN = "boken";
-        b.year = 2025;
-        b.amount = 0;
         when(db.get_book("boken"))
-                .thenReturn(b);
+                .thenReturn(new Book("olof", "boken", "boken", 2025, 1));
         assertTrue(lib.lend_book("boken"));
     }
 
     @Test
     void test_return_book()
     {
+        assertTrue(lib.login("fake_user"));
 
+        when(db.get_book("boken"))
+                .thenReturn(new Book("olof", "boken", "boken", 2025, 1));
+        when(db.remove_loan("fake_user", "boken"))
+                .thenReturn(true);
+        assertTrue(lib.return_book("boken"));
     }
 
     @Test
     void test_create_member()
     {
+        assertTrue(lib.login("fake_user"));
 
-    }
-
-    @Test
-    void test_delete_member()
-    {
-
+        when(db.get_member("evil_user"))
+                .thenReturn(new Member("evil", "user", "evil_user", Member.student, LocalDate.MAX));
+        assertFalse(lib.create_member(new Member("evil", "user", "evil_user", Member.student, LocalDate.MIN)));
+        when(db.get_member("good_user"))
+                .thenReturn(null);
+        assertTrue(lib.create_member(new Member("good", "user", "good_user", Member.student, LocalDate.MIN)));
     }
 
     @Test
     void test_suspend_member()
     {
+        assertTrue(lib.login("fake_user"));
 
+        when(db.get_member("evil_user"))
+                .thenReturn(null);
+        assertFalse(lib.suspend_member("evil_user"));
+
+        when(db.get_member("evil_user"))
+                .thenReturn(new Member("evil", "user", "evil_user", Member.student, LocalDate.MAX));
+        assertTrue(lib.suspend_member("evil_user"));
     }
 }
