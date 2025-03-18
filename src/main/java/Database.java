@@ -36,25 +36,27 @@ public class Database
     public Member get_member(int id)
     {
         try {
-            logger.debug(String.format("SELECT * FROM Member WHERE id = %s", id));
+            logger.debug(String.format("SELECT * FROM Member WHERE id = %d", id));
 
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(String.format("SELECT * FROM Member WHERE id = %s", id));
+            String sql = String.format("SELECT * FROM Member WHERE id = %d;", id);
+            ResultSet rs = stmt.executeQuery(sql);
+
             if (!rs.next()) {
                 logger.warn("No members found");
                 return null;
             }
 
             Member member = new Member();
-            member.id = rs.getInt(0);
-            member.first_name = rs.getString(1);
-            member.last_name = rs.getString(2);
-            member.level = rs.getInt(3);
-            member.suspended = rs.getDate(4).toLocalDate();
-            member.delays = rs.getInt(5);
+            member.id = rs.getInt("id");
+            member.first_name = rs.getString("firstname");
+            member.last_name = rs.getString("lastname");
+            member.level = rs.getInt("level");
+            member.suspended = rs.getDate("suspended").toLocalDate();
+            member.delays = rs.getInt("delays");
             return member;
         } catch (SQLException e) {
-            logger.error("Failed to close: {}", e.getMessage());
+            logger.error("Failed to get member: {}", e.getMessage());
             return null;
         }
     }

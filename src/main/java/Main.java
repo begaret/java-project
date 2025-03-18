@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main
@@ -14,6 +15,11 @@ public class Main
         Library lib = new Library(db);
         if (!lib.login(user)) {
             System.out.println("Invalid user!");
+            return;
+        }
+
+        if (lib.is_suspended()) {
+            System.out.println("You are suspended!");
             return;
         }
 

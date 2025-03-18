@@ -16,6 +16,14 @@ public class Library
         return user != null;
     }
 
+    public boolean is_suspended()
+    {
+        System.out.println(String.format("%s >= %s", user.suspended.toString(), LocalDate.now().toString()));
+
+        LocalDate now = LocalDate.now();
+        return !user.suspended.isBefore(now);
+    }
+
     public boolean user_has_level(int level)
     {
         return user.level == level;
