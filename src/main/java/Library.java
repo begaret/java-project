@@ -31,9 +31,7 @@ public class Library
 
         Book book = db.get_book(ISBN);
         if (book == null) {
-            System.out.println(String
-                    .format("No book with ISBN = %s",
-                            ISBN));
+            System.out.printf("No book with ISBN = %s%n", ISBN);
             return false;
         } else if (db.get_loans("", ISBN).length >= book.amount) {
             System.out.println("Book is not available");
@@ -53,9 +51,7 @@ public class Library
     {
         Book book = db.get_book(ISBN);
         if (book == null) {
-            System.out.println(String
-                    .format("No book with ISBN = %s",
-                            ISBN));
+            System.out.printf("No book with ISBN = %s%n", ISBN);
             return false;
         }
 

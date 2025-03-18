@@ -34,14 +34,14 @@ public class Member
 
     public int max_books()
     {
-        switch (level) {
-        case 0: return 3;
-        case 1: return 5;
-        case 2: return 7;
-        case 3: return 10;
-        case 4: return Integer.MAX_VALUE;
-        }
+        return switch (level) {
+            case 0 -> 3;
+            case 1 -> 5;
+            case 2 -> 7;
+            case 3 -> 10;
+            case 4 -> Integer.MAX_VALUE;
+            default -> 0;
+        };
 
-        return 0;
     }
 }
