@@ -133,7 +133,7 @@ public class Database
         }
 
         logger.debug("Executing query '{}'", sql);
-        return null;
+        return new ArrayList<>();
 /*
         try {
             Statement stmt = connection.createStatement();

@@ -39,6 +39,7 @@ public class Main
                 String ISBN = scanner.nextLine();
                 lib.lend_book(ISBN);
             } break;
+
             case 2: {
                 System.out.println("Enter book ISBN: ");
                 String ISBN = scanner.nextLine();
