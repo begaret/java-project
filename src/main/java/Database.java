@@ -64,8 +64,8 @@ public class Database
     public boolean add_member(Member member)
     {
         String sql = String.format("INSERT INTO Member"
-                                 + "(id, firstname, lastname, level, suspended, delays)"
-                                 + "VALUES ('%d', '%s', '%s', %d, '%s', %d);",
+                                 + " (id, firstname, lastname, level, suspended, delays)"
+                                 + " VALUES ('%d', '%s', '%s', %d, '%s', %d);",
             member.id,
             member.first_name,
             member.last_name,
@@ -84,6 +84,30 @@ public class Database
 
     public boolean remove_member(int id)
     {
+        /*
+        String sql = String.format("DELETE FROM Member WHERE id = %d;", id);
+        logger.debug("Executing query '{}'", sql);
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (!rs.next()) {
+                logger.warn("Query returned null");
+                return null;
+            }
+
+            Book book = new Book();
+            book.author = rs.getString("author");
+            book.ISBN = rs.getString("isbn");
+            book.title = rs.getString("title");
+            book.year = rs.getInt("year");
+            book.amount = rs.getInt("amount");
+            return book;
+        } catch (SQLException e) {
+            logger.error("Query failed: {}", e.getMessage());
+            return null;
+        }
+        */
+
         return false;
     }
 
@@ -129,7 +153,7 @@ public class Database
 
             sql += ";";
         } else {
-            sql += String.format(" ISBN = '%s';", ISBN);
+            sql += String.format(" isbn = '%s';", ISBN);
         }
 
         logger.debug("Executing query '{}'", sql);
@@ -160,8 +184,8 @@ public class Database
     public boolean add_loan(Loan loan)
     {
         String sql = String.format("INSERT INTO Loan"
-                        + "(id, isbn, date)"
-                        + "VALUES ('%d', '%s', '%s');",
+                        + " (id, isbn, date)"
+                        + " VALUES ('%d', '%s', '%s');",
                 loan.id,
                 loan.ISBN,
                 loan.when.toString());

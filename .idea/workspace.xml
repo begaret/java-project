@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7077ccff-edb0-4a5a-99b4-cc7e6da92e7b" name="Changes" comment="arraylist som inte kraschar!">
+    <list default="true" id="7077ccff-edb0-4a5a-99b4-cc7e6da92e7b" name="Changes" comment="get loans">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database.java" afterDir="false" />
     </list>
@@ -176,7 +176,14 @@
       <option name="presentableId" value="LOCAL−00007" />
       <updated>1742385478149</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL−00008" summary="get loans">
+      <option name="closed" value="true" />
+      <created>1742386204599</created>
+      <option name="number" value="LOCAL−00008" />
+      <option name="presentableId" value="LOCAL−00008" />
+      <updated>1742386204599</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -202,6 +209,7 @@
     <MESSAGE value="id to int" />
     <MESSAGE value="sql database metoder :)" />
     <MESSAGE value="arraylist som inte kraschar!" />
-    <option name="LAST_COMMIT_MESSAGE" value="arraylist som inte kraschar!" />
+    <MESSAGE value="get loans" />
+    <option name="LAST_COMMIT_MESSAGE" value="get loans" />
   </component>
 </project>
