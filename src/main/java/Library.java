@@ -18,7 +18,7 @@ public class Library
 
     public boolean is_suspended()
     {
-        System.out.println(String.format("%s >= %s", user.suspended.toString(), LocalDate.now().toString()));
+        System.out.printf("%s >= %s%n", user.suspended.toString(), LocalDate.now());
 
         LocalDate now = LocalDate.now();
         return !user.suspended.isBefore(now);
@@ -31,7 +31,7 @@ public class Library
 
     public boolean lend_book(String ISBN)
     {
-        int borrowed = db.get_loans(user.id, "").length;
+        int borrowed = db.get_loans(user.id, "").size();
         if (borrowed >= user.max_books()) {
             System.out.println("You cannot lend any more books!");
             return false;
@@ -41,7 +41,7 @@ public class Library
         if (book == null) {
             System.out.printf("No book with ISBN = %s%n", ISBN);
             return false;
-        } else if (db.get_loans(-1, ISBN).length >= book.amount) {
+        } else if (db.get_loans(-1, ISBN).size() >= book.amount) {
             System.out.println("Book is not available");
             return false;
         }
@@ -51,17 +51,15 @@ public class Library
         loan.id = user.id;
         loan.ISBN = ISBN;
         loan.when = LocalDate.now();
-        db.add_loan(loan);
-        return true;
+        return db.add_loan(loan);
     }
 
     public boolean return_book(String ISBN)
     {
         Book book = db.get_book(ISBN);
         if (book == null) {
-            System.out.println(String
-                    .format("No book with ISBN = %s",
-                            ISBN));
+            System.out.printf("No book with ISBN = %s%n",
+                    ISBN);
             return false;
         }
 
@@ -74,8 +72,7 @@ public class Library
         Member member = db.get_member(user.id);
         if (member == null) {
             // TODO: generate id
-            db.add_member(user);
-            return true;
+            return db.add_member(user);
         }
 
         LocalDate now = LocalDate.now();

@@ -1,25 +1,23 @@
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main
 {
     public static void main(String[] args)
     {
+        Database db = new Database();
+        if (!db.is_connected()) {
+            System.out.println("Failed to connect");
+            return;
+        }
+
+        Library lib = new Library(db);
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to the Library System!");
         System.out.println("Enter your user id:");
         int user = Integer.parseInt(scanner.nextLine());
-
-        Database db = new Database("jdbc:sqlserver://172.27.129.59/SQLEXPRESS;database=libraryDB;password=123;");
-        Library lib = new Library(db);
-        if (!lib.login(user)) {
-            System.out.println("Invalid user!");
-            return;
-        }
-
-        if (lib.is_suspended()) {
-            System.out.println("You are suspended!");
+        if (!lib.login(user) || lib.is_suspended()) {
+            System.out.println("Login failed!");
             return;
         }
 

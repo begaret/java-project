@@ -9,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Mock;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 class LibraryTest
 {
@@ -41,9 +42,9 @@ class LibraryTest
     {
         assertTrue(lib.login(0));
         when(db.get_loans(0, ""))
-                .thenReturn(new Loan[]{});
+                .thenReturn(new ArrayList<>());
         when(db.get_loans(-1, "boken"))
-                .thenReturn(new Loan[]{});
+                .thenReturn(new ArrayList<>());
 
         assertFalse(lib.lend_book("boken"));
 
