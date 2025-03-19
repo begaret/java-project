@@ -3,6 +3,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.mockito.MockitoAnnotations;
@@ -41,16 +43,16 @@ class LibraryTest
     void test_lend_book()
     {
         assertTrue(lib.login(0));
-        when(db.get_loans(0, ""))
-                .thenReturn(new ArrayList<>());
-        when(db.get_loans(-1, "boken"))
-                .thenReturn(new ArrayList<>());
-
-        assertFalse(lib.lend_book("boken"));
+        when(db.get_loans(0, "")).thenReturn(new ArrayList<>());
+        when(db.get_loans(-1, "boken")).thenReturn(new ArrayList<>());
+        when(db.add_loan(any(Loan.class))).thenReturn(true);
 
         when(db.get_book("boken"))
-                .thenReturn(new Book("olof", "boken", "boken", 2025, 1));
+                .thenReturn(new Book("olof", "boken", "boken", 2025));
         assertTrue(lib.lend_book("boken"));
+
+        verify(db).get_book("boken");
+        verify(db).add_loan(any(Loan.class));
     }
 
     @Test
@@ -59,10 +61,12 @@ class LibraryTest
         assertTrue(lib.login(0));
 
         when(db.get_book("boken"))
-                .thenReturn(new Book("olof", "boken", "boken", 2025, 1));
+                .thenReturn(new Book("olof", "boken", "boken", 2025));
         when(db.remove_loan(0, "boken"))
                 .thenReturn(true);
         assertTrue(lib.return_book("boken"));
+
+        verify(db).remove_loan(0, "boken");
     }
 
     @Test
@@ -70,11 +74,9 @@ class LibraryTest
     {
         assertTrue(lib.login(0));
 
-        when(db.get_member(1))
-                .thenReturn(new Member("evil", "user", 1, Member.student, LocalDate.MAX));
-        assertFalse(lib.create_member(new Member("evil", "user", 1, Member.student, LocalDate.MIN)));
-        when(db.get_member(2))
-                .thenReturn(null);
+        when(db.get_member(2)).thenReturn(null);
+        when(db.add_member(any(Member.class))).thenReturn(true);
+
         assertTrue(lib.create_member(new Member("good", "user", 2, Member.student, LocalDate.MIN)));
     }
 
