@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7077ccff-edb0-4a5a-99b4-cc7e6da92e7b" name="Changes" comment="sql database metoder :)">
+    <list default="true" id="7077ccff-edb0-4a5a-99b4-cc7e6da92e7b" name="Changes" comment="arraylist som inte kraschar!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +169,14 @@
       <option name="presentableId" value="LOCAL−00006" />
       <updated>1742385110280</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL−00007" summary="arraylist som inte kraschar!">
+      <option name="closed" value="true" />
+      <created>1742385478149</created>
+      <option name="number" value="LOCAL−00007" />
+      <option name="presentableId" value="LOCAL−00007" />
+      <updated>1742385478149</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,6 +201,7 @@
     <MESSAGE value="debug logging" />
     <MESSAGE value="id to int" />
     <MESSAGE value="sql database metoder :)" />
-    <option name="LAST_COMMIT_MESSAGE" value="sql database metoder :)" />
+    <MESSAGE value="arraylist som inte kraschar!" />
+    <option name="LAST_COMMIT_MESSAGE" value="arraylist som inte kraschar!" />
   </component>
 </project>

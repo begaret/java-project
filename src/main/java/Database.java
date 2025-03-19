@@ -133,8 +133,6 @@ public class Database
         }
 
         logger.debug("Executing query '{}'", sql);
-        return new ArrayList<>();
-/*
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -143,12 +141,20 @@ public class Database
                 return null;
             }
 
-            return null;
+            ArrayList<Loan> loans = new ArrayList<>();
+            while (rs.next()) {
+                Loan loan = new Loan();
+                loan.id = rs.getInt("id");
+                loan.ISBN = rs.getString("isbn");
+                loan.when = rs.getDate("date").toLocalDate();
+                loans.add(loan);
+            }
+
+            return loans;
         } catch (SQLException e) {
             logger.error("Query failed: {}", e.getMessage());
             return null;
         }
- */
     }
 
     public boolean add_loan(Loan loan)
