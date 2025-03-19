@@ -2,9 +2,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Database
+public class Database implements IDatabase
 {
     static final Logger logger = LogManager.getLogger(Database.class);
     Connection connection;
@@ -12,7 +13,7 @@ public class Database
     Database()
     {
         try {
-            String url = "jdbc:sqlserver://172.27.146.207:1433;databaseName=libraryDB;encrypt=false;trustServerCertificate=true";
+            String url = "jdbc:sqlserver://localhost:1433;databaseName=libraryDB;encrypt=false;trustServerCertificate=true";
             String user = "remote_userr";
             String password = "1234";
 
@@ -70,7 +71,7 @@ public class Database
             member.first_name,
             member.last_name,
             member.level,
-            member.suspended.toString(),
+            Date.valueOf(member.suspended),
             member.delays);
         logger.debug("Executing query '{}'", sql);
         try {
@@ -84,31 +85,54 @@ public class Database
 
     public boolean remove_member(int id)
     {
-        /*
         String sql = String.format("DELETE FROM Member WHERE id = %d;", id);
         logger.debug("Executing query '{}'", sql);
         try {
             Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            if (!rs.next()) {
-                logger.warn("Query returned null");
-                return null;
-            }
-
-            Book book = new Book();
-            book.author = rs.getString("author");
-            book.ISBN = rs.getString("isbn");
-            book.title = rs.getString("title");
-            book.year = rs.getInt("year");
-            book.amount = rs.getInt("amount");
-            return book;
+            stmt.executeUpdate(sql);
+            return true;
         } catch (SQLException e) {
             logger.error("Query failed: {}", e.getMessage());
-            return null;
+            return false;
         }
-        */
+    }
 
-        return false;
+
+    public int delay_member(int id)
+    {
+        Member member = get_member(id);
+        if (member == null) {
+            return -1;
+        }
+
+        String sql = String.format("UPDATE Member SET delays = %d WHERE id = %d;",
+            member.delays + 1, id);
+        logger.debug("Executing query '{}'", sql);
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(sql);
+            return ++member.delays;
+        } catch (SQLException e) {
+            logger.error("Query failed: {}", e.getMessage());
+            return member.delays;
+        }
+    }
+
+    public boolean suspend_member(int id)
+    {
+        LocalDate suspended = LocalDate.now().plusDays(15);
+
+        String sql = String.format("UPDATE Member SET suspended = '%s', delays = 0 WHERE id = %d;",
+                Date.valueOf(suspended), id);
+        logger.debug("Executing query '{}'", sql);
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            logger.error("Query failed: {}", e.getMessage());
+            return false;
+        }
     }
 
     // BOOK
@@ -129,7 +153,6 @@ public class Database
             book.ISBN = rs.getString("isbn");
             book.title = rs.getString("title");
             book.year = rs.getInt("year");
-            book.amount = rs.getInt("amount");
             return book;
         } catch (SQLException e) {
             logger.error("Query failed: {}", e.getMessage());
@@ -160,10 +183,6 @@ public class Database
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            if (!rs.next()) {
-                logger.warn("Query returned null");
-                return null;
-            }
 
             ArrayList<Loan> loans = new ArrayList<>();
             while (rs.next()) {
@@ -177,7 +196,7 @@ public class Database
             return loans;
         } catch (SQLException e) {
             logger.error("Query failed: {}", e.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -188,7 +207,7 @@ public class Database
                         + " VALUES ('%d', '%s', '%s');",
                 loan.id,
                 loan.ISBN,
-                loan.when.toString());
+                Date.valueOf(loan.when));
         logger.debug("Executing query '{}'", sql);
         try {
             Statement stmt = connection.createStatement();
@@ -201,6 +220,15 @@ public class Database
 
     public boolean remove_loan(int id, String ISBN)
     {
-        return false;
+        String sql = String.format("DELETE FROM Loan WHERE id = %d AND isbn = '%s';", id, ISBN);
+        logger.debug("Executing query '{}'", sql);
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            logger.error("Query failed: {}", e.getMessage());
+            return false;
+        }
     }
 }

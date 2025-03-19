@@ -21,17 +21,17 @@ public class Main
             return;
         }
 
-        System.out.println("\nMenu:");
-        System.out.println("1. Lend item.");
-        System.out.println("2. Return item.");
-        System.out.println("3. Create user.");
-        System.out.println("4. Delete user.");
-        System.out.println("5. Suspend user.");
-        System.out.println("6. Quit.");
-        System.out.println("Select (1-6):");
-
         boolean quit = false;
         while (!quit) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Lend item.");
+            System.out.println("2. Return item.");
+            System.out.println("3. Create user.");
+            System.out.println("4. Delete user.");
+            System.out.println("5. Suspend user.");
+            System.out.println("6. Quit.");
+            System.out.println("Select (1-6):");
+
             int opt = Integer.parseInt(scanner.nextLine());
             switch (opt) {
             case 1: {
@@ -55,7 +55,7 @@ public class Main
                 Member member = new Member();
                 System.out.println("Enter first name: ");
                 member.first_name = scanner.nextLine();
-                System.out.println("Enter first name: ");
+                System.out.println("Enter last name: ");
                 member.last_name = scanner.nextLine();
                 System.out.println("Enter level: ");
                 member.level = Integer.parseInt(scanner.nextLine());

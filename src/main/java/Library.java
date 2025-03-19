@@ -2,10 +2,10 @@ import java.time.LocalDate;
 
 public class Library
 {
-    Database db;
+    IDatabase db;
     Member user;
 
-    Library(Database _db)
+    Library(IDatabase _db)
     {
         db = _db;
     }
@@ -41,7 +41,7 @@ public class Library
         if (book == null) {
             System.out.printf("No book with ISBN = %s%n", ISBN);
             return false;
-        } else if (db.get_loans(-1, ISBN).size() >= book.amount) {
+        } else if (!db.get_loans(-1, ISBN).isEmpty()) {
             System.out.println("Book is not available");
             return false;
         }
@@ -98,10 +98,8 @@ public class Library
             return false;
         }
 
-        member.delays++;
-        if (member.delays > 2) {
-            member.suspended = LocalDate.now().plusDays(15);
-            member.delays = 0;
+        if (db.delay_member(id) > 2) {
+            return db.suspend_member(id);
         }
 
         return true;
